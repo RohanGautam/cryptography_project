@@ -16,10 +16,6 @@ In a GCE instance,
 
 ```bash
 sudo apt update && sudo apt -y install apache2 snapd
-
-
-
-
 sudo systemctl status apache2
 cd /etc/apache2
 # sudo chmod +rw apache2.conf
@@ -37,8 +33,17 @@ Successfully deployed certificate for crypto-project.xyz to /etc/apache2/sites-a
 Congratulations! You have successfully enabled HTTPS on https://crypto-project.xyz
 ```
 
+- edit `apache2/mods-available/ssl.conf`, adding the line `SSLProtocol -all +TLSv1` (remove(`-`) all and enable(`+`) only TLSv1 )
+- edit `apache2/sites-available/000-default-le-ssl.conf`, adding the lines `SSLEngine on`, `SSLProtocol -all +TLSv1` (remove(`-`) all and enable(`+`) only TLSv1 )
+- make same changes as above to `/etc/letsencrypt/options-ssl-apache.conf.`
+
 ## refs
 
 - https://www.tenable.com/plugins/nessus/84581
 - https://github.com/concise/logjam-attack-poc
 - https://download-installer.cdn.mozilla.net/pub/firefox/releases/38.0.5/linux-x86_64/en-US/
+
+## Tricks:
+
+- search all files in a folder for a keyword: `grep -rnw '/etc/apache2' -e 'SSLProtocol'` ([ref](https://stackoverflow.com/a/16957078/6274300))
+- restart and view status : `sudo systemctl restart apache2 && sudo systemctl status apache2`
