@@ -47,3 +47,10 @@ Congratulations! You have successfully enabled HTTPS on https://crypto-project.x
 
 - search all files in a folder for a keyword: `grep -rnw '/etc/apache2' -e 'SSLProtocol'` ([ref](https://stackoverflow.com/a/16957078/6274300))
 - restart and view status : `sudo systemctl restart apache2 && sudo systemctl status apache2`
+
+## Research:
+
+- https://docs.mitmproxy.org/stable/ proxy for mitm attacks and intercepting requests. From
+  - `sudo mv mitmproxy-ca-cert.pem /usr/local/share/ca-certificates/mitmproxy.crt`
+  - `sudo update-ca-certificates`
+  - Install and upload certificate to firefox (http://mitm.it/#Firefox)
