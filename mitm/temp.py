@@ -240,3 +240,6 @@ pprint(x)
  'type': 'http',
  'version': 14,
  'websocket': None}
+
+['address', 'alpn', 'alpn_offers', 'alpn_proto_negotiated', 'certificate_list', 'cipher', 'cipher_list', 'cipher_name', 'clientcert', 'connected', 'copy', 'error', 'from_state', 'get_state',
+    'id', 'mitmcert', 'peername', 'reply', 'set_state', 'sni', 'sockname', 'state', 'timestamp_end', 'timestamp_start', 'timestamp_tls_setup', 'tls', 'tls_established', 'tls_version']
