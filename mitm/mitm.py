@@ -30,6 +30,8 @@ class MitmLogic():
             state = flow.get_state()
             ctx.log.info(state['client_conn']['sni'])
             ctx.log.info(state['client_conn']['tls_version'])
+            ctx.log.info(state['client_conn']['cipher_name'])
+            ctx.log.info(state['server_conn']['cipher_name'])
             l = len(state['server_conn']['certificate_list'])
             ctx.log.info(f'number of certificates : {l}')
             for cert_data in state['server_conn']['certificate_list']:
@@ -50,7 +52,23 @@ class MitmLogic():
         This hook decides whether a server connection is needed
         to negotiate TLS with the client (data.establish_server_tls_first)
         """
-        ctx.log(f"tls_clienthello: {data}")
+        # ctx.log(f"tls_clienthello: {data}")
+        # # ctx.log(f"tls_clienthello: {data.context}")
+        # # ctx.log(f"tls_clienthello: {data.context.client}")
+        # ctx.log(f"tls_clienthello alpn: {data.context.client.alpn}")
+        # ctx.log(
+        #     f"tls_clienthello alpn_offers: {data.context.client.alpn_offers}")
+        # ctx.log(
+        #     f"tls_clienthello alpn_proto_negotiated: {data.context.client.alpn_proto_negotiated}")
+        # ctx.log(f"tls_clienthello cipher: {data.context.client.cipher}")
+        # ctx.log(
+        #     f"tls_clienthello cipher_list: {data.context.client.cipher_list}")
+        # ctx.log(
+        #     f"tls_clienthello cipher_name: {data.context.client.cipher_name}")
+        # ctx.log(
+        #     f"tls_clienthello tls_version: {data.context.client.tls_version}")
+        # ctx.log(f"tls_clienthello: {dir(data.context.client)}")
+        # ctx.log(f"tls_clienthello: {dir(data.context)}")
 
     def tls_start_client(self, data: mitmproxy.proxy.layers.tls.TlsStartData):
         """
@@ -59,16 +77,45 @@ class MitmLogic():
         An addon is expected to initialize data.ssl_conn.
         (by default, this is done by mitmproxy.addons.TlsConfig)
         """
-        ctx.log(f"tls_start_client: {data}")
+        # ctx.log(f"tls_start_client: {data}")
+        ctx.log(f"tls_start_client alpn: {data.context.server.alpn}")
+        ctx.log(
+            f"tls_start_client alpn_offers: {data.context.server.alpn_offers}")
+        ctx.log(
+            f"tls_start_client alpn_proto_negotiated: {data.context.server.alpn_proto_negotiated}")
+        ctx.log(f"tls_start_client cipher: {data.context.server.cipher}")
+        ctx.log(
+            f"tls_start_client cipher_list: {data.context.server.cipher_list}")
+        ctx.log(
+            f"tls_start_client cipher_name: {data.context.server.cipher_name}")
+        ctx.log(
+            f"tls_start_client tls_version: {data.context.server.tls_version}")
+        # pass
 
     def tls_start_server(self, data: mitmproxy.proxy.layers.tls.TlsStartData):
         """
-        TLS Negotation between mitmproxy and a client is about to start.
+        TLS Negotation between mitmproxy and a server is about to start.
 
         An addon is expected to initialize data.ssl_conn.
         (by default, this is done by mitmproxy.addons.TlsConfig)
         """
-        ctx.log(f"tls_start_client: {data}")
+        # ctx.log(f"tls_start_server: {data}")
+        ctx.log(f"tls_clienthello: {data}")
+        # ctx.log(f"tls_clienthello: {data.context}")
+        # ctx.log(f"tls_clienthello: {data.context.client}")
+        ctx.log(f"tls_clienthello alpn: {data.context.client.alpn}")
+        ctx.log(
+            f"tls_clienthello alpn_offers: {data.context.client.alpn_offers}")
+        ctx.log(
+            f"tls_clienthello alpn_proto_negotiated: {data.context.client.alpn_proto_negotiated}")
+        ctx.log(f"tls_clienthello cipher: {data.context.client.cipher}")
+        ctx.log(
+            f"tls_clienthello cipher_list: {data.context.client.cipher_list}")
+        ctx.log(
+            f"tls_clienthello cipher_name: {data.context.client.cipher_name}")
+        ctx.log(
+            f"tls_clienthello tls_version: {data.context.client.tls_version}")
+        pass
 
 
 addons = [
