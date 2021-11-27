@@ -34,10 +34,10 @@ if __name__ == '__main__':
     client.compute_shared_secret()
     # NFS commands
     # Get the largest primes:
-    res = subprocess.run(
-        f'python ./cado-nfs/cado-nfs.py {p} -t all'.split(), capture_output=True)
-    # largest prime factor of p-1
-    print(res.stdout.decode('utf-8'))
+    # res = subprocess.run(
+    #     f'python ./cado-nfs/cado-nfs.py {p} -t all'.split(), capture_output=True)
+    # # largest prime factor of p-1
+    # print(res.stdout.decode('utf-8'))
     # largest_prime_factor = max([int(x)
     #                            for x in res.stdout.decode('utf-8').split()])
     # log.info(f"largest prime factor of p-1: {largest_prime_factor}")
