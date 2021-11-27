@@ -2,3 +2,4 @@ firefox
 cado-nfs
 mitmproxy_binaries
 mitmproxy-7.0.4-linux.tar.gz
+__pycache__
