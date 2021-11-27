@@ -1,6 +1,6 @@
 class Client:
     def __init__(self) -> None:
-        pass
+        self.secret = 6
 
-    def moo(self):
-        print('moo')
+    def hello(self) -> list:
+        return ['DHE_RSA', 'suite 2', 'suite 3']
