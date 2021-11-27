@@ -29,9 +29,10 @@ def I2B(i, length):
 
 
 def modify_client_hello(cipher_suite, client_hello):
-    assert client_hello[0] == 0x01
-    assert len(client_hello) >= 4
-    assert len(client_hello) - 4 == B2I(client_hello[1:4])
+    print(client_hello)
+    # assert client_hello[0] == 0x01
+    # assert len(client_hello) >= 4
+    # assert len(client_hello) - 4 == B2I(client_hello[1:4])
     body = client_hello[4:]
 
     cversion, body = body[:2], body[2:]
@@ -199,6 +200,9 @@ def exit_print_usage():
     sys.exit(1)
 
 
+clienthello = '''50e08558a99924f5a2128d140800450000cc364d40003b06b1a623ef7116c0a8018b01bbb7ba83458237f2bca26c801801f9c39000000101080a6b9f9dd2d1f5640616030300600200005c0303ec3b9e1d29338536626ed06d7146f35acfeacfd34535b8ae444f574e47524401205f95f013d3941e1d9fe298de38377e48665fcaa8ca905a3dceabf16a9c941f41c02f000014ff010001000010000b000908687474702f312e311403030001011603030028bb5bb5466c3217587a47cd5e85f6701dd05e4314492402599da1a62f5fa05dc3652e10cfc9c616fd'''
+
+
 def main():
     sys.stderr.write('\n\n')
     sys.stderr.write('Python script invoked with argv = ' + str(sys.argv))
@@ -206,17 +210,19 @@ def main():
     try:
         # cipher_suite = int(sys.argv[1], 16)
         # client_hello = bytes.fromhex(sys.argv[2])
-        cipher_suite = int(sys.argv[1], 16)
-        client_hello = bytes.fromhex(sys.argv[2])
+        cipher_suite = int('0xc0', 16)
+        client_hello = bytes.fromhex(clienthello)
         new_client_hello = modify_client_hello(cipher_suite, client_hello)
-        new_client_hello_records = wrap_as_tls_plaintext_record(
-            new_client_hello)
-        server_response = perform_hello(new_client_hello_records)
-        dissect_server_response(server_response)
-    except ValueError:
-        exit_print_usage()
-    except IndexError:
-        exit_print_usage()
+        # new_client_hello_records = wrap_as_tls_plaintext_record(
+        #     new_client_hello)
+        # server_response = perform_hello(new_client_hello_records)
+        # dissect_server_response(server_response)
+    except ValueError as e:
+        print(e)
+        # exit_print_usage()
+    except IndexError as e:
+        print(e)
+        # exit_print_usage()
 
 
 if __name__ == '__main__':
