@@ -19,6 +19,7 @@ class Server:
             'DHE_RSA_EXPORT': 6
         }
         self.chosen_suite = 'suite 1'  # highest priority
+        self.A = None
 
     def negotiate_cipher_suite(self, suites: list) -> str:
         log.info(
@@ -35,7 +36,15 @@ class Server:
         payload = {
             'ciphersuite': self.chosen_suite,
             'p': self.prime,
-            'b': self.base
+            'g': self.base,
+            'B': (self.base**self.secret) % self.prime
         }
         log.info(f"sending payload: {payload}")
         return payload
+
+    def set_client_public(self, A):
+        self.A = A
+
+    def compute_shared_secret(self):
+        self.shared_secret = (self.A**self.secret) % self.prime
+        log.info(f"Shared secret is {self.shared_secret}")

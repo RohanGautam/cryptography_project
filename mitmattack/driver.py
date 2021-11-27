@@ -17,6 +17,15 @@ if __name__ == '__main__':
             client.hello()
         )
     )
-    mitm.forward_server_hello(
+    serverhello = mitm.forward_server_hello(
         server.hello()
     )
+    p, g, B = serverhello['p'], serverhello['g'], serverhello['B']
+    client.set_server_public(B)
+    server.set_client_public(
+        mitm.send_client_public(
+            client.send_public(p, g)
+        )
+    )
+    server.compute_shared_secret()
+    client.compute_shared_secret()

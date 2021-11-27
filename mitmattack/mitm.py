@@ -16,3 +16,6 @@ class Mitm:
 
     def forward_server_hello(self, server_hello):
         return server_hello
+
+    def send_client_public(self, payload):
+        return payload
