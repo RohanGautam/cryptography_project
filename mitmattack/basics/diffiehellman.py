@@ -1,3 +1,5 @@
+from sympy.ntheory import factorint
+
 # Variables Used
 sharedPrime = 191907783019725260605646959711    # p
 sharedBase = 2      # g
@@ -32,3 +34,8 @@ print("    Alice Shared Secret: ", aliceSharedSecret)
 # Bob Computes Shared Secret: s = A^b mod p
 bobSharedSecret = pow(A, bobSecret, sharedPrime)
 print("    Bob Shared Secret: ", bobSharedSecret)
+
+print("\n------------\n")
+f = factorint(sharedPrime-1)
+max_factor = max(f.keys())
+print(max_factor)

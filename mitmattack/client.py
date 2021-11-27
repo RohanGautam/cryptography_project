@@ -50,7 +50,7 @@ class Client:
         m = b"This is a top secret message"
         encryptor = self.cipher.encryptor()
         ct = encryptor.update(message) + encryptor.finalize()
-        print('Ciphertext : ', ct)
+        log.info(f'Ciphertext : {ct}')
         return ct
 
     def aes_decrypt(self, ciphertext):

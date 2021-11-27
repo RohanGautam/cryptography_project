@@ -1,7 +1,10 @@
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from utils.log_config import logging
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
 log.setLevel(logging.DEBUG)
+backend = default_backend()
 
 
 class Mitm:
@@ -19,3 +22,12 @@ class Mitm:
 
     def send_client_public(self, payload):
         return payload
+
+    def forward_client_to_server(self, ciphertext, S, iv):
+        cipher = Cipher(algorithms.AES(S.to_bytes(32, 'big')),
+                        modes.CBC(iv), backend=backend)
+        decryptor = cipher.decryptor()
+        plaintext_recieved = (decryptor.update(
+            ciphertext) + decryptor.finalize()).decode('utf-8')
+        log.info(f'MITM Decrypted plaintext : {plaintext_recieved}')
+        return ciphertext

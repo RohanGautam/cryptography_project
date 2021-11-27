@@ -53,5 +53,11 @@ if __name__ == '__main__':
     # --------------
     # assume we find the shared secret
     S = client.shared_secret
-    log.info(client.aes_decrypt(
-        client.aes_encrypt("a secret message".encode())))
+    server.init_aes(client.iv)  # publicly known, so share freely
+    server.parse_client_msg(
+        mitm.forward_client_to_server(
+            client.aes_encrypt("a secret message".encode()),
+            S,
+            client.iv
+        )
+    )

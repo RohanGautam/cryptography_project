@@ -1,5 +1,8 @@
-from utils.log_config import logging
 import random
+from utils.log_config import logging
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+from cryptography.hazmat.backends import default_backend
+backend = default_backend()
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
 log.setLevel(logging.DEBUG)
@@ -55,3 +58,15 @@ class Server:
         log.info("calculating shared secret")
         self.shared_secret = pow(self.A, self.secret, self.prime)
         log.info(f"Shared secret is {self.shared_secret}")
+
+    def init_aes(self, iv):
+        key_bytes = self.shared_secret.to_bytes(32, 'big')
+        self.cipher = Cipher(algorithms.AES(key_bytes),
+                             modes.CBC(iv), backend=backend)
+
+    def parse_client_msg(self, ciphertext):
+        decryptor = self.cipher.decryptor()
+        plaintext_recieved = (decryptor.update(
+            ciphertext) + decryptor.finalize()).decode('utf-8')
+        log.info(f'Server Decrypted plaintext : {plaintext_recieved}')
+        return ciphertext
