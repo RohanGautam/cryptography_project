@@ -17,14 +17,14 @@ print("    Publicly Shared Base:  ", sharedBase)
 
 # Alice Sends Bob A = g^a mod p
 A = pow(sharedBase, aliceSecret, sharedPrime)
-print("\n  Alice Sends Over Public Chanel: ", A)
+print("Alice Sends Over Public Chanel (A): ", A)
 
 # Bob Sends Alice B = g^b mod p
 B = pow(sharedBase, bobSecret, sharedPrime)
-print("Bob Sends Over Public Chanel: ", B)
+print("Bob Sends Over Public Chanel (B): ", B)
 
 print("\n------------\n")
-print("Privately Calculated Shared Secret:")
+print("Privately Calculated Shared Secret (S):")
 # Alice Computes Shared Secret: s = B^a mod p
 aliceSharedSecret = pow(B, aliceSecret, sharedPrime)
 print("    Alice Shared Secret: ", aliceSharedSecret)
