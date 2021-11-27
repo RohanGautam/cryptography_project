@@ -51,9 +51,10 @@ Congratulations! You have successfully enabled HTTPS on https://crypto-project.x
 ## Research:
 
 - https://docs.mitmproxy.org/stable/ proxy for mitm attacks and intercepting requests. From
-  - `sudo mv mitmproxy-ca-cert.pem /usr/local/share/ca-certificates/mitmproxy.crt`
-  - `sudo update-ca-certificates`
-  - Install and upload certificate to firefox (http://mitm.it/#Firefox)
-  - X.509 certificates for authentication are sometimes also called SSL Certificates/ server certs
-  - packet capture and analysis: `sudo wireshark`
-  - custom server ip: `35.239.113.22:443`, wireshark filder : `ip.addr == 35.239.113.22`
+- `sudo mv mitmproxy-ca-cert.pem /usr/local/share/ca-certificates/mitmproxy.crt`
+- `sudo update-ca-certificates`
+- Install and upload certificate to firefox (http://mitm.it/#Firefox)
+- X.509 certificates for authentication are sometimes also called SSL Certificates/ server certs
+- packet capture and analysis: `sudo wireshark`
+- custom server ip: `35.239.113.22:443`, wireshark filder : `ip.addr == 35.239.113.22`
+- `python mitmattack/driver.py`
