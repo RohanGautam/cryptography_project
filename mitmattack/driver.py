@@ -49,3 +49,9 @@ if __name__ == '__main__':
     # if computed_client_secret != client.secret:
     #     log.error(
     #         f"DOES NOT MATCH: {computed_client_secret} != {client.secret}")
+
+    # --------------
+    # assume we find the shared secret
+    S = client.shared_secret
+    log.info(client.aes_decrypt(
+        client.aes_encrypt("a secret message".encode())))
