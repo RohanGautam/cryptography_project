@@ -1,3 +1,4 @@
+import subprocess
 from sympy.ntheory import factorint
 
 # Variables Used
@@ -39,3 +40,38 @@ print("\n------------\n")
 f = factorint(sharedPrime-1)
 max_factor = max(f.keys())
 print(max_factor)
+print(
+    f'python ./cado-nfs/cado-nfs.py -dlp -ell {max_factor} target={A} {sharedPrime}')
+# res = subprocess.run(
+#     f'python ./cado-nfs/cado-nfs.py -dlp -ell {max_factor} target={aliceSharedSecret} {sharedPrime}'.split(), capture_output=True)
+# computed_client_secret = int((res.stdout.decode('utf-8').strip()))
+# print(f"DLP soln: {computed_client_secret}")
+log_h = 72598176602764149203650556  # from stdout
+# from stderr,  same as x in the sage example
+log_2 = 11263248339990185810045507
+
+
+def egcd(a, b):
+    if a == 0:
+        return (b, 0, 1)
+    else:
+        g, y, x = egcd(b % a, a)
+        return (g, x - (b // a) * y, y)
+
+
+def modinv(a, m):
+    g, x, y = egcd(a, m)
+    if g != 1:
+        raise Exception('modular inverse does not exist')
+    else:
+        return x % m
+
+
+x = (log_h*modinv(log_2, max_factor)) % max_factor
+print(x)
+
+p1 = pow(sharedBase, x, sharedPrime)
+print(p1)
+print(f'g^x=h (mod p) is {p1==A}')
+# print(
+#     f'python ./cado-nfs/cado-nfs.py -dlp -ell {log_h} target={sharedBase} {sharedPrime}')
