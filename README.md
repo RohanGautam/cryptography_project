@@ -58,3 +58,12 @@ Congratulations! You have successfully enabled HTTPS on https://crypto-project.x
 - packet capture and analysis: `sudo wireshark`
 - custom server ip: `35.239.113.22:443`, wireshark filder : `ip.addr == 35.239.113.22`
 - `python mitmattack/driver.py`
+
+# NFS:
+
+- `./cado-nfs.py 90377629292003121684002147101760858109247336549001090677693 -t all > ../nfs_output.txt`
+
+```bash
+191907783019725260605646959711 # 98 bit prime
+./cado-nfs.py -dlp -ell 101538509534246169632617439 target=129821646158317470002802307860 191907783019725260605646959711
+```

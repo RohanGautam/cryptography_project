@@ -6,7 +6,7 @@ log.setLevel(logging.DEBUG)
 
 class Client:
     def __init__(self) -> None:
-        self.secret = 6
+        self.secret = 539727294718671
         self.cipher_suites = ['DHE_RSA', 'suite 2', 'suite 3']
         self.p = None
         self.g = None
@@ -22,11 +22,15 @@ class Client:
     def send_public(self, p, g):
         self.p = p
         self.g = g
-        return (g**self.secret) % p
+        log.info("calculating client public paramter")
+        A = pow(g, self.secret, p)
+        log.info(f"A: {A}")
+        return A
 
     def set_server_public(self, B):
         self.B = B
 
     def compute_shared_secret(self):
-        self.shared_secret = (self.B**self.secret) % self.p
+        log.info("calculating shared secret")
+        self.shared_secret = pow(self.B, self.secret, self.p)
         log.info(f"Shared secret is {self.shared_secret}")

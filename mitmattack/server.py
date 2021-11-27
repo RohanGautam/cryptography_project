@@ -1,15 +1,20 @@
 from utils.log_config import logging
+import random
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
 log.setLevel(logging.DEBUG)
 
 
 class Server:
-    prime = 23
-    base = 5
+    # prime = 23
+    # base = 5
+    # 196 bit
+    prime = 191907783019725260605646959711
+    base = 2
 
     def __init__(self) -> None:
-        self.secret = 15
+        # random.getrandbits(98)
+        self.secret = 499314731500955
         self.supported_suites = {
             'suite 1': 1,
             'DHE_RSA': 2,
@@ -33,18 +38,20 @@ class Server:
         return chosen_suite
 
     def hello(self):
+        log.info("calculating server public paramter")
         payload = {
             'ciphersuite': self.chosen_suite,
             'p': self.prime,
             'g': self.base,
-            'B': (self.base**self.secret) % self.prime
+            'B': pow(self.base, self.secret, self.prime)
         }
-        log.info(f"sending payload: {payload}")
+        log.info(f"B: {payload['B']}")
         return payload
 
     def set_client_public(self, A):
         self.A = A
 
     def compute_shared_secret(self):
-        self.shared_secret = (self.A**self.secret) % self.prime
+        log.info("calculating shared secret")
+        self.shared_secret = pow(self.A, self.secret, self.prime)
         log.info(f"Shared secret is {self.shared_secret}")
