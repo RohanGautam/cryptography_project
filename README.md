@@ -1,6 +1,25 @@
+# Demonstrating the Logjam attack on weak DH groups
+
 ## Running the main simulation
 
-- Install CADO-NFS, to `./cado-nfs` from their [gitlab](https://gitlab.inria.fr/cado-nfs/cado-nfs)
+In the project root, run
+
+```bash
+# install cado-nfs
+git clone https://gitlab.inria.fr/cado-nfs/cado-nfs
+# install dependencies (in a virtual environment)
+pip install -r requirements.txt
+# Run the main driver script
+python mitmattack/driver.py
+```
+
+If you want to play around with the work on the MITMproxy (in `./archive/`),
+
+- set up a local network proxy on your computer and forward requests to port `8080`.
+- upload the mitm certificate `./archive/mitm/mitmproxy_cert` to your browser, so it can be a "trusted' third party for https traffic.
+- Download and extract the `mitmproxy` [binaries](https://mitmproxy.org/) to `./archive/mitm/mitm_binaries`
+- To examine incoming traffic, use `cd ./archive/mitm/mitm_binaries && ./mitmproxy`
+- To run a script which defines custom `mitmproxy` addons (ours dump TLS data and bind to various TLS event handlers) run, `cd ./archive/mitm/mitm_binaries && ./mitmdump -s ../mitm.py`
 
 ## Running firefox
 
@@ -12,11 +31,13 @@ cd firefox
 ./firefox -no-remote
 ```
 
-## Get certificate :
+## Get certificate of a website from terminal:
 
 ```
 openssl s_client -showcerts -connect www.google.com:443 </dev/null
 ```
+
+## Google cloud Apache server setup
 
 In a GCE instance,
 
@@ -62,10 +83,12 @@ Congratulations! You have successfully enabled HTTPS on https://crypto-project.x
 - Install and upload certificate to firefox (http://mitm.it/#Firefox)
 - X.509 certificates for authentication are sometimes also called SSL Certificates/ server certs
 - packet capture and analysis: `sudo wireshark`
-- custom server ip: `35.239.113.22:443`, wireshark filder : `ip.addr == 35.239.113.22`
+- custom server ip: `35.239.113.22:443`, wireshark filter : `ip.addr == 35.239.113.22`
 - `python mitmattack/driver.py`
 
 # NFS:
+
+The actual command is in the driver script. These are for reference only.
 
 - `./cado-nfs.py 90377629292003121684002147101760858109247336549001090677693 -t all > ../nfs_output.txt`
 
