@@ -33,8 +33,8 @@ Successfully deployed certificate for crypto-project.xyz to /etc/apache2/sites-a
 Congratulations! You have successfully enabled HTTPS on https://crypto-project.xyz
 ```
 
-- edit `apache2/mods-available/ssl.conf`, adding the line `SSLProtocol -all +TLSv1` (remove(`-`) all and enable(`+`) only TLSv1 )
-- edit `apache2/sites-available/000-default-le-ssl.conf`, adding the lines `SSLEngine on`, `SSLProtocol -all +TLSv1` (remove(`-`) all and enable(`+`) only TLSv1 )
+- edit `/etc/apache2/mods-available/ssl.conf`, adding the line `SSLProtocol -all +TLSv1` (remove(`-`) all and enable(`+`) only TLSv1 )
+- edit `/etc/apache2/sites-available/000-default-le-ssl.conf`, adding the lines `SSLEngine on`, `SSLProtocol -all +TLSv1` (remove(`-`) all and enable(`+`) only TLSv1 )
 - make same changes as above to `/etc/letsencrypt/options-ssl-apache.conf.`
 
 ## refs
