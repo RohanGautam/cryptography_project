@@ -1,3 +1,9 @@
+## Running the main simulation
+
+- Install CADO-NFS, to `./cado-nfs` from their [gitlab](https://gitlab.inria.fr/cado-nfs/cado-nfs)
+
+## Running firefox
+
 untar firefox
 
 ```bash
@@ -25,7 +31,7 @@ sudo ln -s /snap/bin/certbot /usr/bin/certbot
 sudo certbot --apache # make sure to have a domain name with a proper A-record for resolving the DNS. It's crypto-project.xyz here
 ```
 
-when setting up https, you should see something like :
+when setting up https with Let's encrypt you should see something like :
 
 ```
 Deploying certificate
