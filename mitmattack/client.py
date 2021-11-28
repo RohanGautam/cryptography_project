@@ -27,7 +27,7 @@ class Client:
         return self.cipher_suites
 
     def send_public(self):
-        log.info("calculating client public paramter")
+        log.info("calculating client public parameter")
         A = pow(self.g, self.secret, self.p)
         log.info(f"A: {A}")
         return A

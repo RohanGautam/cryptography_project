@@ -41,7 +41,7 @@ class Server:
         return chosen_suite
 
     def hello(self):
-        log.info("calculating server public paramter")
+        log.info("calculating server public parameter")
         payload = {
             'ciphersuite': self.chosen_suite,
             'p': self.prime,
