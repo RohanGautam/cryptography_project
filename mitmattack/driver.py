@@ -14,50 +14,36 @@ if __name__ == '__main__':
     server = Server()
     mitm = Mitm()
     client = Client()
+
+    # client hello
     server.negotiate_cipher_suite(
         mitm.forward_client_hello(
             client.hello()
         )
     )
-    serverhello = mitm.forward_server_hello(
-        server.hello()
+    client.get_server_hello(
+        mitm.forward_server_hello(
+            server.hello()
+        )
     )
-    p, g, B = serverhello['p'], serverhello['g'], serverhello['B']
-    client.set_server_public(B)
-    A = client.send_public(p, g)
+    # p, g, B = serverhello['p'], serverhello['g'], serverhello['B']
+    # client.set_server_public(B)
+
     server.set_client_public(
         mitm.send_client_public(
-            A
+            client.send_public()
         )
     )
     server.compute_shared_secret()
     client.compute_shared_secret()
-    # NFS commands
-    # Get the largest primes:
-    # res = subprocess.run(
-    #     f'python ./cado-nfs/cado-nfs.py {p} -t all'.split(), capture_output=True)
-    # # largest prime factor of p-1
-    # print(res.stdout.decode('utf-8'))
-    # largest_prime_factor = max([int(x)
-    #                            for x in res.stdout.decode('utf-8').split()])
-    # log.info(f"largest prime factor of p-1: {largest_prime_factor}")
-    # log.info('Calculating client secret')
-    # res = subprocess.run(
-    #     f'python ./cado-nfs/cado-nfs.py -dlp -ell {largest_prime_factor} target={A} {p}'.split(), capture_output=True)
-    # computed_client_secret = int((res.stdout.decode('utf-8').strip()))
-    # log.info(f"DLP soln: {computed_client_secret}")
-    # if computed_client_secret != client.secret:
-    #     log.error(
-    #         f"DOES NOT MATCH: {computed_client_secret} != {client.secret}")
+    # the special part
+    mitm.compute_shared_secret()
 
-    # --------------
-    # assume we find the shared secret
     S = client.shared_secret
     server.init_aes(client.iv)  # publicly known, so share freely
     server.parse_client_msg(
         mitm.forward_client_to_server(
             client.aes_encrypt("a secret message".encode()),
-            S,
             client.iv
         )
     )

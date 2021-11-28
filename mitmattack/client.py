@@ -26,16 +26,17 @@ class Client:
             f"client hello : offering {len(self.cipher_suites)} cipher suites")
         return self.cipher_suites
 
-    def send_public(self, p, g):
-        self.p = p
-        self.g = g
+    def send_public(self):
         log.info("calculating client public paramter")
-        A = pow(g, self.secret, p)
+        A = pow(self.g, self.secret, self.p)
         log.info(f"A: {A}")
         return A
 
     def set_server_public(self, B):
         self.B = B
+
+    def get_server_hello(self, serverhello):
+        self.p, self.g, self.B = serverhello['p'], serverhello['g'], serverhello['B']
 
     def compute_shared_secret(self):
         log.info("calculating shared secret")
