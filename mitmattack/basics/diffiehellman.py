@@ -1,5 +1,6 @@
 import subprocess
 from sympy.ntheory import factorint
+import re
 
 # Variables Used
 sharedPrime = 191907783019725260605646959711    # p
@@ -42,13 +43,12 @@ max_factor = max(f.keys())
 print(max_factor)
 print(
     f'python ./cado-nfs/cado-nfs.py -dlp -ell {max_factor} target={A} {sharedPrime}')
-# res = subprocess.run(
-#     f'python ./cado-nfs/cado-nfs.py -dlp -ell {max_factor} target={aliceSharedSecret} {sharedPrime}'.split(), capture_output=True)
-# computed_client_secret = int((res.stdout.decode('utf-8').strip()))
+res = subprocess.run(
+    f'python ./cado-nfs/cado-nfs.py -dlp -ell {max_factor} target={A} {sharedPrime}'.split(), capture_output=True)
 # print(f"DLP soln: {computed_client_secret}")
-log_h = 72598176602764149203650556  # from stdout
-# from stderr,  same as x in the sage example
-log_2 = 11263248339990185810045507
+log_h = int((res.stdout.decode('utf-8').strip()))
+log_2 = int(re.search(r'log2 = (\d*)', res.stderr.decode('utf-8')).group(1))
+print(log_h, log_2)
 
 
 def egcd(a, b):
@@ -68,7 +68,7 @@ def modinv(a, m):
 
 
 x = (log_h*modinv(log_2, max_factor)) % max_factor
-print(x)
+print(f'Alice\'s secret: {x}')
 
 p1 = pow(sharedBase, x, sharedPrime)
 print(p1)
